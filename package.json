@@ -1,6 +1,9 @@
 {
   "name": "Delve",
   "version": "0.0.1",
+  "engines": {
+    "node": "10.13.0"
+  },
   "main": "main.js",
   "repository": "git@github.com:Debug-Studios/Delve.git",
   "author": "Debug Studios",
