@@ -1,4 +1,20 @@
 type User {
   id: ID! @unique
   name: String!
+  email: String!
+  blogs: [Blog!]!
+}
+
+type Blog {
+  id: ID! @unique
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+}
+
+type BlogComments {
+  id: ID! @unique
+  author: User!
+  blog: Blog!
 }
