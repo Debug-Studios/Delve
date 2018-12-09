@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Dec 09 2018 13:54:25 GMT+0530 (India Standard Time)
+# timestamp: Sun Dec 09 2018 19:06:54 GMT+0530 (India Standard Time)
 
 type AggregateBlog {
   count: Int!
@@ -24,10 +24,12 @@ type Blog implements Node {
   body: String!
   published: Boolean!
   author: User!
+  comments(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComment!]
 }
 
 type BlogComment implements Node {
   id: ID!
+  body: String!
   author: User!
   blog: Blog!
 }
@@ -43,8 +45,29 @@ type BlogCommentConnection {
 }
 
 input BlogCommentCreateInput {
-  author: UserCreateOneInput!
-  blog: BlogCreateOneInput!
+  body: String!
+  author: UserCreateOneWithoutBlogCommentsInput!
+  blog: BlogCreateOneWithoutCommentsInput!
+}
+
+input BlogCommentCreateManyWithoutAuthorInput {
+  create: [BlogCommentCreateWithoutAuthorInput!]
+  connect: [BlogCommentWhereUniqueInput!]
+}
+
+input BlogCommentCreateManyWithoutBlogInput {
+  create: [BlogCommentCreateWithoutBlogInput!]
+  connect: [BlogCommentWhereUniqueInput!]
+}
+
+input BlogCommentCreateWithoutAuthorInput {
+  body: String!
+  blog: BlogCreateOneWithoutCommentsInput!
+}
+
+input BlogCommentCreateWithoutBlogInput {
+  body: String!
+  author: UserCreateOneWithoutBlogCommentsInput!
 }
 
 """An edge in a connection."""
@@ -59,6 +82,8 @@ type BlogCommentEdge {
 enum BlogCommentOrderByInput {
   id_ASC
   id_DESC
+  body_ASC
+  body_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -67,6 +92,98 @@ enum BlogCommentOrderByInput {
 
 type BlogCommentPreviousValues {
   id: ID!
+  body: String!
+}
+
+input BlogCommentScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogCommentScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogCommentScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogCommentScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  body: String
+
+  """All values that are not equal to given value."""
+  body_not: String
+
+  """All values that are contained in given list."""
+  body_in: [String!]
+
+  """All values that are not contained in given list."""
+  body_not_in: [String!]
+
+  """All values less than the given value."""
+  body_lt: String
+
+  """All values less than or equal the given value."""
+  body_lte: String
+
+  """All values greater than the given value."""
+  body_gt: String
+
+  """All values greater than or equal the given value."""
+  body_gte: String
+
+  """All values containing the given string."""
+  body_contains: String
+
+  """All values not containing the given string."""
+  body_not_contains: String
+
+  """All values starting with the given string."""
+  body_starts_with: String
+
+  """All values not starting with the given string."""
+  body_not_starts_with: String
+
+  """All values ending with the given string."""
+  body_ends_with: String
+
+  """All values not ending with the given string."""
+  body_not_ends_with: String
 }
 
 type BlogCommentSubscriptionPayload {
@@ -109,8 +226,76 @@ input BlogCommentSubscriptionWhereInput {
 }
 
 input BlogCommentUpdateInput {
-  author: UserUpdateOneRequiredInput
-  blog: BlogUpdateOneRequiredInput
+  body: String
+  author: UserUpdateOneRequiredWithoutBlogCommentsInput
+  blog: BlogUpdateOneRequiredWithoutCommentsInput
+}
+
+input BlogCommentUpdateManyDataInput {
+  body: String
+}
+
+input BlogCommentUpdateManyMutationInput {
+  body: String
+}
+
+input BlogCommentUpdateManyWithoutAuthorInput {
+  create: [BlogCommentCreateWithoutAuthorInput!]
+  connect: [BlogCommentWhereUniqueInput!]
+  disconnect: [BlogCommentWhereUniqueInput!]
+  delete: [BlogCommentWhereUniqueInput!]
+  update: [BlogCommentUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [BlogCommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [BlogCommentScalarWhereInput!]
+  upsert: [BlogCommentUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input BlogCommentUpdateManyWithoutBlogInput {
+  create: [BlogCommentCreateWithoutBlogInput!]
+  connect: [BlogCommentWhereUniqueInput!]
+  disconnect: [BlogCommentWhereUniqueInput!]
+  delete: [BlogCommentWhereUniqueInput!]
+  update: [BlogCommentUpdateWithWhereUniqueWithoutBlogInput!]
+  updateMany: [BlogCommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [BlogCommentScalarWhereInput!]
+  upsert: [BlogCommentUpsertWithWhereUniqueWithoutBlogInput!]
+}
+
+input BlogCommentUpdateManyWithWhereNestedInput {
+  where: BlogCommentScalarWhereInput!
+  data: BlogCommentUpdateManyDataInput!
+}
+
+input BlogCommentUpdateWithoutAuthorDataInput {
+  body: String
+  blog: BlogUpdateOneRequiredWithoutCommentsInput
+}
+
+input BlogCommentUpdateWithoutBlogDataInput {
+  body: String
+  author: UserUpdateOneRequiredWithoutBlogCommentsInput
+}
+
+input BlogCommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: BlogCommentWhereUniqueInput!
+  data: BlogCommentUpdateWithoutAuthorDataInput!
+}
+
+input BlogCommentUpdateWithWhereUniqueWithoutBlogInput {
+  where: BlogCommentWhereUniqueInput!
+  data: BlogCommentUpdateWithoutBlogDataInput!
+}
+
+input BlogCommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: BlogCommentWhereUniqueInput!
+  update: BlogCommentUpdateWithoutAuthorDataInput!
+  create: BlogCommentCreateWithoutAuthorInput!
+}
+
+input BlogCommentUpsertWithWhereUniqueWithoutBlogInput {
+  where: BlogCommentWhereUniqueInput!
+  update: BlogCommentUpdateWithoutBlogDataInput!
+  create: BlogCommentCreateWithoutBlogInput!
 }
 
 input BlogCommentWhereInput {
@@ -162,6 +347,46 @@ input BlogCommentWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  body: String
+
+  """All values that are not equal to given value."""
+  body_not: String
+
+  """All values that are contained in given list."""
+  body_in: [String!]
+
+  """All values that are not contained in given list."""
+  body_not_in: [String!]
+
+  """All values less than the given value."""
+  body_lt: String
+
+  """All values less than or equal the given value."""
+  body_lte: String
+
+  """All values greater than the given value."""
+  body_gt: String
+
+  """All values greater than or equal the given value."""
+  body_gte: String
+
+  """All values containing the given string."""
+  body_contains: String
+
+  """All values not containing the given string."""
+  body_not_contains: String
+
+  """All values starting with the given string."""
+  body_starts_with: String
+
+  """All values not starting with the given string."""
+  body_not_starts_with: String
+
+  """All values ending with the given string."""
+  body_ends_with: String
+
+  """All values not ending with the given string."""
+  body_not_ends_with: String
   author: UserWhereInput
   blog: BlogWhereInput
 }
@@ -183,8 +408,9 @@ type BlogConnection {
 input BlogCreateInput {
   title: String!
   body: String!
-  published: Boolean!
+  published: Boolean
   author: UserCreateOneWithoutBlogsInput!
+  comments: BlogCommentCreateManyWithoutBlogInput
 }
 
 input BlogCreateManyWithoutAuthorInput {
@@ -192,15 +418,23 @@ input BlogCreateManyWithoutAuthorInput {
   connect: [BlogWhereUniqueInput!]
 }
 
-input BlogCreateOneInput {
-  create: BlogCreateInput
+input BlogCreateOneWithoutCommentsInput {
+  create: BlogCreateWithoutCommentsInput
   connect: BlogWhereUniqueInput
 }
 
 input BlogCreateWithoutAuthorInput {
   title: String!
   body: String!
-  published: Boolean!
+  published: Boolean
+  comments: BlogCommentCreateManyWithoutBlogInput
+}
+
+input BlogCreateWithoutCommentsInput {
+  title: String!
+  body: String!
+  published: Boolean
+  author: UserCreateOneWithoutBlogsInput!
 }
 
 """An edge in a connection."""
@@ -408,18 +642,12 @@ input BlogSubscriptionWhereInput {
   node: BlogWhereInput
 }
 
-input BlogUpdateDataInput {
-  title: String
-  body: String
-  published: Boolean
-  author: UserUpdateOneRequiredWithoutBlogsInput
-}
-
 input BlogUpdateInput {
   title: String
   body: String
   published: Boolean
   author: UserUpdateOneRequiredWithoutBlogsInput
+  comments: BlogCommentUpdateManyWithoutBlogInput
 }
 
 input BlogUpdateManyDataInput {
@@ -450,17 +678,25 @@ input BlogUpdateManyWithWhereNestedInput {
   data: BlogUpdateManyDataInput!
 }
 
-input BlogUpdateOneRequiredInput {
-  create: BlogCreateInput
+input BlogUpdateOneRequiredWithoutCommentsInput {
+  create: BlogCreateWithoutCommentsInput
   connect: BlogWhereUniqueInput
-  update: BlogUpdateDataInput
-  upsert: BlogUpsertNestedInput
+  update: BlogUpdateWithoutCommentsDataInput
+  upsert: BlogUpsertWithoutCommentsInput
 }
 
 input BlogUpdateWithoutAuthorDataInput {
   title: String
   body: String
   published: Boolean
+  comments: BlogCommentUpdateManyWithoutBlogInput
+}
+
+input BlogUpdateWithoutCommentsDataInput {
+  title: String
+  body: String
+  published: Boolean
+  author: UserUpdateOneRequiredWithoutBlogsInput
 }
 
 input BlogUpdateWithWhereUniqueWithoutAuthorInput {
@@ -468,9 +704,9 @@ input BlogUpdateWithWhereUniqueWithoutAuthorInput {
   data: BlogUpdateWithoutAuthorDataInput!
 }
 
-input BlogUpsertNestedInput {
-  update: BlogUpdateDataInput!
-  create: BlogCreateInput!
+input BlogUpsertWithoutCommentsInput {
+  update: BlogUpdateWithoutCommentsDataInput!
+  create: BlogCreateWithoutCommentsInput!
 }
 
 input BlogUpsertWithWhereUniqueWithoutAuthorInput {
@@ -613,6 +849,9 @@ input BlogWhereInput {
   """All values that are not equal to given value."""
   published_not: Boolean
   author: UserWhereInput
+  comments_every: BlogCommentWhereInput
+  comments_some: BlogCommentWhereInput
+  comments_none: BlogCommentWhereInput
 }
 
 input BlogWhereUniqueInput {
@@ -629,23 +868,24 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createBlogComment(data: BlogCommentCreateInput!): BlogComment!
-  createBlog(data: BlogCreateInput!): Blog!
   createUser(data: UserCreateInput!): User!
-  updateBlogComment(data: BlogCommentUpdateInput!, where: BlogCommentWhereUniqueInput!): BlogComment
-  updateBlog(data: BlogUpdateInput!, where: BlogWhereUniqueInput!): Blog
+  createBlog(data: BlogCreateInput!): Blog!
+  createBlogComment(data: BlogCommentCreateInput!): BlogComment!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteBlogComment(where: BlogCommentWhereUniqueInput!): BlogComment
-  deleteBlog(where: BlogWhereUniqueInput!): Blog
+  updateBlog(data: BlogUpdateInput!, where: BlogWhereUniqueInput!): Blog
+  updateBlogComment(data: BlogCommentUpdateInput!, where: BlogCommentWhereUniqueInput!): BlogComment
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertBlogComment(where: BlogCommentWhereUniqueInput!, create: BlogCommentCreateInput!, update: BlogCommentUpdateInput!): BlogComment!
-  upsertBlog(where: BlogWhereUniqueInput!, create: BlogCreateInput!, update: BlogUpdateInput!): Blog!
+  deleteBlog(where: BlogWhereUniqueInput!): Blog
+  deleteBlogComment(where: BlogCommentWhereUniqueInput!): BlogComment
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyBlogs(data: BlogUpdateManyMutationInput!, where: BlogWhereInput): BatchPayload!
+  upsertBlog(where: BlogWhereUniqueInput!, create: BlogCreateInput!, update: BlogUpdateInput!): Blog!
+  upsertBlogComment(where: BlogCommentWhereUniqueInput!, create: BlogCommentCreateInput!, update: BlogCommentUpdateInput!): BlogComment!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManyBlogComments(where: BlogCommentWhereInput): BatchPayload!
-  deleteManyBlogs(where: BlogWhereInput): BatchPayload!
+  updateManyBlogs(data: BlogUpdateManyMutationInput!, where: BlogWhereInput): BatchPayload!
+  updateManyBlogComments(data: BlogCommentUpdateManyMutationInput!, where: BlogCommentWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyBlogs(where: BlogWhereInput): BatchPayload!
+  deleteManyBlogComments(where: BlogCommentWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -681,15 +921,15 @@ enum PrismaDatabase {
 }
 
 type Query {
-  blogComments(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComment]!
-  blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  blogComment(where: BlogCommentWhereUniqueInput!): BlogComment
-  blog(where: BlogWhereUniqueInput!): Blog
+  blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog]!
+  blogComments(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComment]!
   user(where: UserWhereUniqueInput!): User
-  blogCommentsConnection(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogCommentConnection!
-  blogsConnection(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogConnection!
+  blog(where: BlogWhereUniqueInput!): Blog
+  blogComment(where: BlogCommentWhereUniqueInput!): BlogComment
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  blogsConnection(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogConnection!
+  blogCommentsConnection(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogCommentConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -699,9 +939,9 @@ type Query {
 }
 
 type Subscription {
-  blogComment(where: BlogCommentSubscriptionWhereInput): BlogCommentSubscriptionPayload
-  blog(where: BlogSubscriptionWhereInput): BlogSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  blog(where: BlogSubscriptionWhereInput): BlogSubscriptionPayload
+  blogComment(where: BlogCommentSubscriptionWhereInput): BlogCommentSubscriptionPayload
 }
 
 type User implements Node {
@@ -709,6 +949,7 @@ type User implements Node {
   name: String!
   email: String!
   blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog!]
+  blogComments(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComment!]
 }
 
 """A connection to a list of items."""
@@ -725,10 +966,11 @@ input UserCreateInput {
   name: String!
   email: String!
   blogs: BlogCreateManyWithoutAuthorInput
+  blogComments: BlogCommentCreateManyWithoutAuthorInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutBlogCommentsInput {
+  create: UserCreateWithoutBlogCommentsInput
   connect: UserWhereUniqueInput
 }
 
@@ -737,9 +979,16 @@ input UserCreateOneWithoutBlogsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutBlogCommentsInput {
+  name: String!
+  email: String!
+  blogs: BlogCreateManyWithoutAuthorInput
+}
+
 input UserCreateWithoutBlogsInput {
   name: String!
   email: String!
+  blogComments: BlogCommentCreateManyWithoutAuthorInput
 }
 
 """An edge in a connection."""
@@ -809,16 +1058,11 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
-input UserUpdateDataInput {
-  name: String
-  email: String
-  blogs: BlogUpdateManyWithoutAuthorInput
-}
-
 input UserUpdateInput {
   name: String
   email: String
   blogs: BlogUpdateManyWithoutAuthorInput
+  blogComments: BlogCommentUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
@@ -826,11 +1070,11 @@ input UserUpdateManyMutationInput {
   email: String
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
+input UserUpdateOneRequiredWithoutBlogCommentsInput {
+  create: UserCreateWithoutBlogCommentsInput
   connect: UserWhereUniqueInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+  update: UserUpdateWithoutBlogCommentsDataInput
+  upsert: UserUpsertWithoutBlogCommentsInput
 }
 
 input UserUpdateOneRequiredWithoutBlogsInput {
@@ -840,14 +1084,21 @@ input UserUpdateOneRequiredWithoutBlogsInput {
   upsert: UserUpsertWithoutBlogsInput
 }
 
+input UserUpdateWithoutBlogCommentsDataInput {
+  name: String
+  email: String
+  blogs: BlogUpdateManyWithoutAuthorInput
+}
+
 input UserUpdateWithoutBlogsDataInput {
   name: String
   email: String
+  blogComments: BlogCommentUpdateManyWithoutAuthorInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpsertWithoutBlogCommentsInput {
+  update: UserUpdateWithoutBlogCommentsDataInput!
+  create: UserCreateWithoutBlogCommentsInput!
 }
 
 input UserUpsertWithoutBlogsInput {
@@ -987,6 +1238,9 @@ input UserWhereInput {
   blogs_every: BlogWhereInput
   blogs_some: BlogWhereInput
   blogs_none: BlogWhereInput
+  blogComments_every: BlogCommentWhereInput
+  blogComments_some: BlogCommentWhereInput
+  blogComments_none: BlogCommentWhereInput
 }
 
 input UserWhereUniqueInput {

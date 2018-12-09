@@ -1,4 +1,72 @@
 type Query {
-  hello(name: String): String!
-  add(a: Float!, b: Float!): Float!
+  users(query: String): [User!]
+  blogs(query: String): [Blog!]
+  blogComments: [BlogComment!]
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): User!
+  updateUser(id: ID!, data: UpdateUserInput): User!
+  createBlog(data: CreateBlogInput!): Blog!
+  updateBlog(id: ID!, data: UpdateBlogInput!): Blog!
+  deleteBlog(id: ID!): Blog!
+  createBlogComment(data: CreateBlogCommentInput!): BlogComment!
+  updateBlogComment(id: ID!, data: UpdateBlogCommentInput!): BlogComment!
+  deleteBlogComment(id: ID!): BlogComment!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  blogs: [Blog!]!
+  blogComments: [BlogComment!]!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+}
+
+type Blog {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+  comments: [BlogComment!]!
+}
+
+input CreateBlogInput {
+  title: String!
+  body: String!
+  published: Boolean!
+  author: ID!
+}
+
+input UpdateBlogInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+type BlogComment {
+  id: ID!
+  author: User!
+  body: String!
+  blog: Blog!
+}
+
+input CreateBlogCommentInput {
+  body: String!
+  author: ID!
+  blog: ID!
+}
+input UpdateBlogCommentInput {
+  body: String
 }

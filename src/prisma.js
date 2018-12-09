@@ -5,3 +5,5 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466',
   secret: 'super-super',
 });
+
+export { prisma as default };

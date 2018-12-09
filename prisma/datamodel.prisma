@@ -19,6 +19,7 @@ type Blog {
 
 type BlogComment {
   id: ID! @unique
+  body: String!
   author: User! @relation(name: "BlogCommentsToUser", onDelete: SET_NULL)
   blog: Blog! @relation(name: "BlogCommentsToBlog", onDelete: SET_NULL)
 }

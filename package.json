@@ -15,7 +15,7 @@
     "build-babel": "babel -d ./build ./src -s",
     "build": "yarn run clean && yarn run build-babel",
     "get-schema": "graphql get-schema -p prisma",
-    "dev": "nodemon src/main.js --exec babel-node",
+    "dev": "nodemon src/main.js --ext js,graphql --exec babel-node",
     "start": "yarn run build && node ./build/main.js"
   },
   "devDependencies": {
