@@ -2,6 +2,7 @@ type User {
   id: ID! @unique
   name: String!
   email: String!
+  googleOAuthCode: String!
   blogs: [Blog!]! @relation(name: "BlogToUser", onDelete: CASCADE)
   blogComments: [BlogComment!]!
     @relation(name: "BlogCommentsToUser", onDelete: CASCADE)

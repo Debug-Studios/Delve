@@ -15,10 +15,15 @@ type Mutation {
   deleteBlogComment(id: ID!): BlogComment!
 }
 
+type Subscription {
+  blogComment: BlogCommentSubscriptionPayload
+}
+
 type User {
   id: ID!
   name: String!
   email: String!
+  googleOAuthCode: String!
   blogs: [Blog!]!
   blogComments: [BlogComment!]!
 }
@@ -69,4 +74,15 @@ input CreateBlogCommentInput {
 }
 input UpdateBlogCommentInput {
   body: String
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type BlogCommentSubscriptionPayload {
+  mutation: MutationType!
+  node: BlogComment
 }
