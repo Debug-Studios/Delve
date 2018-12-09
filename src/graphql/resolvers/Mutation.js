@@ -12,7 +12,7 @@ const Mutation = {
 
     return {
       user,
-      token: jwt.sign({ userId: user.id }, 'samplesecret'),
+      token: jwt.sign({ userId: user.id }, process.eventNames().JWT_TOKEN),
     };
   },
 
@@ -40,7 +40,7 @@ const Mutation = {
 
     return {
       user,
-      token: jwt.sign({ userId: user.id }, 'samplesecret'),
+      token: jwt.sign({ userId: user.id }, process.env.JWT_TOKEN),
     };
   },
 
