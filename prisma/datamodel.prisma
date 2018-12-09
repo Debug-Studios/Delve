@@ -1,8 +1,8 @@
 type User {
   id: ID! @unique
   name: String!
-  email: String!
-  googleOAuthCode: String!
+  email: String! @unique
+  googleOAuthToken: String! @unique
   blogs: [Blog!]! @relation(name: "BlogToUser", onDelete: CASCADE)
   blogComments: [BlogComment!]!
     @relation(name: "BlogCommentsToUser", onDelete: CASCADE)
