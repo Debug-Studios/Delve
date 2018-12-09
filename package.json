@@ -11,12 +11,10 @@
   "license": "GPL-3.0-only",
   "private": false,
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./src -s",
-    "build": "yarn run clean && yarn run build-babel",
     "get-schema": "graphql get-schema -p prisma",
-    "dev": "nodemon src/main.js --ext js,graphql --exec babel-node",
-    "start": "yarn run build && node ./build/main.js"
+    "dev": "env-cmd ./config/dev.env nodemon src/main.js --ext js,graphql --exec babel-node",
+    "heroku-postbuild": "babel src --out-dir dist --copy-files",
+    "start": "node dist/main.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
@@ -30,7 +28,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.2.0",
+    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.2.0",
+    "env-cmd": "^8.0.2",
     "googleapis": "^36.0.0",
     "graphql-yoga": "^1.16.7",
     "jsonwebtoken": "^8.4.0",
