@@ -1,4 +1,4 @@
 endpoint: ${env:PRISMA_ENDPOINT}
 # endpoint: https://delve-api-ae5d9a6965.herokuapp.com/prisma/prod
 datamodel: datamodel.prisma
-secret: rogerdodgerbosssauce
+secret: ${env:PRISMA_SECRET}
