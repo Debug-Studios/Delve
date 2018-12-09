@@ -1,0 +1,994 @@
+# source: http://localhost:4466
+# timestamp: Sun Dec 09 2018 13:41:44 GMT+0530 (India Standard Time)
+
+type AggregateBlog {
+  count: Int!
+}
+
+type AggregateBlogComments {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+type Blog implements Node {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+}
+
+type BlogComments implements Node {
+  id: ID!
+  author: User!
+  blog: Blog!
+}
+
+"""A connection to a list of items."""
+type BlogCommentsConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [BlogCommentsEdge]!
+  aggregate: AggregateBlogComments!
+}
+
+input BlogCommentsCreateInput {
+  author: UserCreateOneInput!
+  blog: BlogCreateOneInput!
+}
+
+"""An edge in a connection."""
+type BlogCommentsEdge {
+  """The item at the end of the edge."""
+  node: BlogComments!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum BlogCommentsOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type BlogCommentsPreviousValues {
+  id: ID!
+}
+
+type BlogCommentsSubscriptionPayload {
+  mutation: MutationType!
+  node: BlogComments
+  updatedFields: [String!]
+  previousValues: BlogCommentsPreviousValues
+}
+
+input BlogCommentsSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogCommentsSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogCommentsSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogCommentsSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: BlogCommentsWhereInput
+}
+
+input BlogCommentsUpdateInput {
+  author: UserUpdateOneRequiredInput
+  blog: BlogUpdateOneRequiredInput
+}
+
+input BlogCommentsWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogCommentsWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogCommentsWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogCommentsWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  author: UserWhereInput
+  blog: BlogWhereInput
+}
+
+input BlogCommentsWhereUniqueInput {
+  id: ID
+}
+
+"""A connection to a list of items."""
+type BlogConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [BlogEdge]!
+  aggregate: AggregateBlog!
+}
+
+input BlogCreateInput {
+  title: String!
+  body: String!
+  published: Boolean!
+  author: UserCreateOneWithoutBlogsInput!
+}
+
+input BlogCreateManyWithoutAuthorInput {
+  create: [BlogCreateWithoutAuthorInput!]
+  connect: [BlogWhereUniqueInput!]
+}
+
+input BlogCreateOneInput {
+  create: BlogCreateInput
+  connect: BlogWhereUniqueInput
+}
+
+input BlogCreateWithoutAuthorInput {
+  title: String!
+  body: String!
+  published: Boolean!
+}
+
+"""An edge in a connection."""
+type BlogEdge {
+  """The item at the end of the edge."""
+  node: Blog!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum BlogOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  body_ASC
+  body_DESC
+  published_ASC
+  published_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type BlogPreviousValues {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+}
+
+input BlogScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  body: String
+
+  """All values that are not equal to given value."""
+  body_not: String
+
+  """All values that are contained in given list."""
+  body_in: [String!]
+
+  """All values that are not contained in given list."""
+  body_not_in: [String!]
+
+  """All values less than the given value."""
+  body_lt: String
+
+  """All values less than or equal the given value."""
+  body_lte: String
+
+  """All values greater than the given value."""
+  body_gt: String
+
+  """All values greater than or equal the given value."""
+  body_gte: String
+
+  """All values containing the given string."""
+  body_contains: String
+
+  """All values not containing the given string."""
+  body_not_contains: String
+
+  """All values starting with the given string."""
+  body_starts_with: String
+
+  """All values not starting with the given string."""
+  body_not_starts_with: String
+
+  """All values ending with the given string."""
+  body_ends_with: String
+
+  """All values not ending with the given string."""
+  body_not_ends_with: String
+  published: Boolean
+
+  """All values that are not equal to given value."""
+  published_not: Boolean
+}
+
+type BlogSubscriptionPayload {
+  mutation: MutationType!
+  node: Blog
+  updatedFields: [String!]
+  previousValues: BlogPreviousValues
+}
+
+input BlogSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: BlogWhereInput
+}
+
+input BlogUpdateDataInput {
+  title: String
+  body: String
+  published: Boolean
+  author: UserUpdateOneRequiredWithoutBlogsInput
+}
+
+input BlogUpdateInput {
+  title: String
+  body: String
+  published: Boolean
+  author: UserUpdateOneRequiredWithoutBlogsInput
+}
+
+input BlogUpdateManyDataInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input BlogUpdateManyMutationInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input BlogUpdateManyWithoutAuthorInput {
+  create: [BlogCreateWithoutAuthorInput!]
+  connect: [BlogWhereUniqueInput!]
+  disconnect: [BlogWhereUniqueInput!]
+  delete: [BlogWhereUniqueInput!]
+  update: [BlogUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [BlogUpdateManyWithWhereNestedInput!]
+  deleteMany: [BlogScalarWhereInput!]
+  upsert: [BlogUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input BlogUpdateManyWithWhereNestedInput {
+  where: BlogScalarWhereInput!
+  data: BlogUpdateManyDataInput!
+}
+
+input BlogUpdateOneRequiredInput {
+  create: BlogCreateInput
+  connect: BlogWhereUniqueInput
+  update: BlogUpdateDataInput
+  upsert: BlogUpsertNestedInput
+}
+
+input BlogUpdateWithoutAuthorDataInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input BlogUpdateWithWhereUniqueWithoutAuthorInput {
+  where: BlogWhereUniqueInput!
+  data: BlogUpdateWithoutAuthorDataInput!
+}
+
+input BlogUpsertNestedInput {
+  update: BlogUpdateDataInput!
+  create: BlogCreateInput!
+}
+
+input BlogUpsertWithWhereUniqueWithoutAuthorInput {
+  where: BlogWhereUniqueInput!
+  update: BlogUpdateWithoutAuthorDataInput!
+  create: BlogCreateWithoutAuthorInput!
+}
+
+input BlogWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BlogWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BlogWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BlogWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  body: String
+
+  """All values that are not equal to given value."""
+  body_not: String
+
+  """All values that are contained in given list."""
+  body_in: [String!]
+
+  """All values that are not contained in given list."""
+  body_not_in: [String!]
+
+  """All values less than the given value."""
+  body_lt: String
+
+  """All values less than or equal the given value."""
+  body_lte: String
+
+  """All values greater than the given value."""
+  body_gt: String
+
+  """All values greater than or equal the given value."""
+  body_gte: String
+
+  """All values containing the given string."""
+  body_contains: String
+
+  """All values not containing the given string."""
+  body_not_contains: String
+
+  """All values starting with the given string."""
+  body_starts_with: String
+
+  """All values not starting with the given string."""
+  body_not_starts_with: String
+
+  """All values ending with the given string."""
+  body_ends_with: String
+
+  """All values not ending with the given string."""
+  body_not_ends_with: String
+  published: Boolean
+
+  """All values that are not equal to given value."""
+  published_not: Boolean
+  author: UserWhereInput
+}
+
+input BlogWhereUniqueInput {
+  id: ID
+}
+
+"""Raw JSON value"""
+scalar Json
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createBlogComments(data: BlogCommentsCreateInput!): BlogComments!
+  createBlog(data: BlogCreateInput!): Blog!
+  createUser(data: UserCreateInput!): User!
+  updateBlogComments(data: BlogCommentsUpdateInput!, where: BlogCommentsWhereUniqueInput!): BlogComments
+  updateBlog(data: BlogUpdateInput!, where: BlogWhereUniqueInput!): Blog
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteBlogComments(where: BlogCommentsWhereUniqueInput!): BlogComments
+  deleteBlog(where: BlogWhereUniqueInput!): Blog
+  deleteUser(where: UserWhereUniqueInput!): User
+  upsertBlogComments(where: BlogCommentsWhereUniqueInput!, create: BlogCommentsCreateInput!, update: BlogCommentsUpdateInput!): BlogComments!
+  upsertBlog(where: BlogWhereUniqueInput!, create: BlogCreateInput!, update: BlogUpdateInput!): Blog!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  updateManyBlogs(data: BlogUpdateManyMutationInput!, where: BlogWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  deleteManyBlogCommentses(where: BlogCommentsWhereInput): BatchPayload!
+  deleteManyBlogs(where: BlogWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+enum PrismaDatabase {
+  default
+}
+
+type Query {
+  blogCommentses(where: BlogCommentsWhereInput, orderBy: BlogCommentsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComments]!
+  blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  blogComments(where: BlogCommentsWhereUniqueInput!): BlogComments
+  blog(where: BlogWhereUniqueInput!): Blog
+  user(where: UserWhereUniqueInput!): User
+  blogCommentsesConnection(where: BlogCommentsWhereInput, orderBy: BlogCommentsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogCommentsConnection!
+  blogsConnection(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  blogComments(where: BlogCommentsSubscriptionWhereInput): BlogCommentsSubscriptionPayload
+  blog(where: BlogSubscriptionWhereInput): BlogSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog!]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  name: String!
+  email: String!
+  blogs: BlogCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutBlogsInput {
+  create: UserCreateWithoutBlogsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutBlogsInput {
+  name: String!
+  email: String!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateDataInput {
+  name: String
+  email: String
+  blogs: BlogUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  blogs: BlogUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpdateOneRequiredWithoutBlogsInput {
+  create: UserCreateWithoutBlogsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutBlogsDataInput
+  upsert: UserUpsertWithoutBlogsInput
+}
+
+input UserUpdateWithoutBlogsDataInput {
+  name: String
+  email: String
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutBlogsInput {
+  update: UserUpdateWithoutBlogsDataInput!
+  create: UserCreateWithoutBlogsInput!
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  blogs_every: BlogWhereInput
+  blogs_some: BlogWhereInput
+  blogs_none: BlogWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+}
