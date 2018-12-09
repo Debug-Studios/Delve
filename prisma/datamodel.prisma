@@ -2,19 +2,23 @@ type User {
   id: ID! @unique
   name: String!
   email: String!
-  blogs: [Blog!]!
+  blogs: [Blog!]! @relation(name: "BlogToUser", onDelete: CASCADE)
+  blogComments: [BlogComment!]!
+    @relation(name: "BlogCommentsToUser", onDelete: CASCADE)
 }
 
 type Blog {
   id: ID! @unique
   title: String!
   body: String!
-  published: Boolean!
-  author: User!
+  published: Boolean! @default(value: "false")
+  author: User! @relation(name: "BlogToUser", onDelete: SET_NULL)
+  comments: [BlogComment!]!
+    @relation(name: "BlogCommentsToBlog", onDelete: CASCADE)
 }
 
 type BlogComment {
   id: ID! @unique
-  author: User!
-  blog: Blog!
+  author: User! @relation(name: "BlogCommentsToUser", onDelete: SET_NULL)
+  blog: Blog! @relation(name: "BlogCommentsToBlog", onDelete: SET_NULL)
 }
