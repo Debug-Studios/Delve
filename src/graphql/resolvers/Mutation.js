@@ -1,12 +1,47 @@
+import jwt from 'jsonwebtoken';
+import nanoid from 'nanoid';
+
 const Mutation = {
-  async createUser(parent, args, { prisma }, info) {
+  async login(parent, args, { prisma }) {
+    // TODO: Mock Google API
+    const user = await prisma.query.user({ where: { googleOAuthToken: args.googleOAuthCode } });
+
+    if (user === null) {
+      throw new Error('User not Found!');
+    }
+
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'samplesecret'),
+    };
+  },
+
+  async createUser(parent, args, { prisma }) {
     const emailTaken = await prisma.exists.User({ email: args.data.email });
 
     if (emailTaken) {
       throw new Error('Email already in use!');
     }
 
-    return prisma.mutation.createUser({ data: args.data }, info);
+    // TODO: Mock Google API
+    const token = nanoid();
+    let user;
+    try {
+      user = await prisma.mutation.createUser({
+        data: {
+          email: args.data.email,
+          name: args.data.name,
+          googleOAuthToken: token,
+        },
+      });
+    } catch (err) {
+      return err;
+    }
+
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'samplesecret'),
+    };
   },
 
   async updateUser(parent, args, { prisma }, info) {

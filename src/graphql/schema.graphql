@@ -5,7 +5,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
+  login(googleOAuthCode: String!): AuthPayload!
+  createUser(data: CreateUserInput!): AuthPayload!
   updateUser(id: ID!, data: UpdateUserInput): User!
   createBlog(data: CreateBlogInput!): Blog!
   updateBlog(id: ID!, data: UpdateBlogInput!): Blog!
@@ -23,12 +24,18 @@ type User {
   id: ID!
   name: String!
   email: String!
-  googleOAuthCode: String!
+  googleOAuthToken: String!
   blogs: [Blog!]!
   blogComments: [BlogComment!]!
 }
 
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
 input CreateUserInput {
+  googleOAuthCode: String!
   name: String!
   email: String!
 }

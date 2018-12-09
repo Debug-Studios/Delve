@@ -31,7 +31,10 @@
   "dependencies": {
     "@babel/core": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
+    "googleapis": "^36.0.0",
     "graphql-yoga": "^1.16.7",
+    "jsonwebtoken": "^8.4.0",
+    "nanoid": "^2.0.0",
     "nodemon": "^1.18.7",
     "prisma-binding": "^2.2.8"
   }
