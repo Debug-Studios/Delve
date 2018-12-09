@@ -1,11 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Sun Dec 09 2018 13:41:44 GMT+0530 (India Standard Time)
+# timestamp: Sun Dec 09 2018 13:54:25 GMT+0530 (India Standard Time)
 
 type AggregateBlog {
   count: Int!
 }
 
-type AggregateBlogComments {
+type AggregateBlogComment {
   count: Int!
 }
 
@@ -26,37 +26,37 @@ type Blog implements Node {
   author: User!
 }
 
-type BlogComments implements Node {
+type BlogComment implements Node {
   id: ID!
   author: User!
   blog: Blog!
 }
 
 """A connection to a list of items."""
-type BlogCommentsConnection {
+type BlogCommentConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [BlogCommentsEdge]!
-  aggregate: AggregateBlogComments!
+  edges: [BlogCommentEdge]!
+  aggregate: AggregateBlogComment!
 }
 
-input BlogCommentsCreateInput {
+input BlogCommentCreateInput {
   author: UserCreateOneInput!
   blog: BlogCreateOneInput!
 }
 
 """An edge in a connection."""
-type BlogCommentsEdge {
+type BlogCommentEdge {
   """The item at the end of the edge."""
-  node: BlogComments!
+  node: BlogComment!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum BlogCommentsOrderByInput {
+enum BlogCommentOrderByInput {
   id_ASC
   id_DESC
   updatedAt_ASC
@@ -65,26 +65,26 @@ enum BlogCommentsOrderByInput {
   createdAt_DESC
 }
 
-type BlogCommentsPreviousValues {
+type BlogCommentPreviousValues {
   id: ID!
 }
 
-type BlogCommentsSubscriptionPayload {
+type BlogCommentSubscriptionPayload {
   mutation: MutationType!
-  node: BlogComments
+  node: BlogComment
   updatedFields: [String!]
-  previousValues: BlogCommentsPreviousValues
+  previousValues: BlogCommentPreviousValues
 }
 
-input BlogCommentsSubscriptionWhereInput {
+input BlogCommentSubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [BlogCommentsSubscriptionWhereInput!]
+  AND: [BlogCommentSubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [BlogCommentsSubscriptionWhereInput!]
+  OR: [BlogCommentSubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [BlogCommentsSubscriptionWhereInput!]
+  NOT: [BlogCommentSubscriptionWhereInput!]
 
   """
   The subscription event gets dispatched when it's listed in mutation_in
@@ -105,23 +105,23 @@ input BlogCommentsSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: BlogCommentsWhereInput
+  node: BlogCommentWhereInput
 }
 
-input BlogCommentsUpdateInput {
+input BlogCommentUpdateInput {
   author: UserUpdateOneRequiredInput
   blog: BlogUpdateOneRequiredInput
 }
 
-input BlogCommentsWhereInput {
+input BlogCommentWhereInput {
   """Logical AND on all given filters."""
-  AND: [BlogCommentsWhereInput!]
+  AND: [BlogCommentWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [BlogCommentsWhereInput!]
+  OR: [BlogCommentWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [BlogCommentsWhereInput!]
+  NOT: [BlogCommentWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -166,7 +166,7 @@ input BlogCommentsWhereInput {
   blog: BlogWhereInput
 }
 
-input BlogCommentsWhereUniqueInput {
+input BlogCommentWhereUniqueInput {
   id: ID
 }
 
@@ -629,21 +629,21 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createBlogComments(data: BlogCommentsCreateInput!): BlogComments!
+  createBlogComment(data: BlogCommentCreateInput!): BlogComment!
   createBlog(data: BlogCreateInput!): Blog!
   createUser(data: UserCreateInput!): User!
-  updateBlogComments(data: BlogCommentsUpdateInput!, where: BlogCommentsWhereUniqueInput!): BlogComments
+  updateBlogComment(data: BlogCommentUpdateInput!, where: BlogCommentWhereUniqueInput!): BlogComment
   updateBlog(data: BlogUpdateInput!, where: BlogWhereUniqueInput!): Blog
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteBlogComments(where: BlogCommentsWhereUniqueInput!): BlogComments
+  deleteBlogComment(where: BlogCommentWhereUniqueInput!): BlogComment
   deleteBlog(where: BlogWhereUniqueInput!): Blog
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertBlogComments(where: BlogCommentsWhereUniqueInput!, create: BlogCommentsCreateInput!, update: BlogCommentsUpdateInput!): BlogComments!
+  upsertBlogComment(where: BlogCommentWhereUniqueInput!, create: BlogCommentCreateInput!, update: BlogCommentUpdateInput!): BlogComment!
   upsertBlog(where: BlogWhereUniqueInput!, create: BlogCreateInput!, update: BlogUpdateInput!): Blog!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyBlogs(data: BlogUpdateManyMutationInput!, where: BlogWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManyBlogCommentses(where: BlogCommentsWhereInput): BatchPayload!
+  deleteManyBlogComments(where: BlogCommentWhereInput): BatchPayload!
   deleteManyBlogs(where: BlogWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
@@ -681,13 +681,13 @@ enum PrismaDatabase {
 }
 
 type Query {
-  blogCommentses(where: BlogCommentsWhereInput, orderBy: BlogCommentsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComments]!
+  blogComments(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlogComment]!
   blogs(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blog]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  blogComments(where: BlogCommentsWhereUniqueInput!): BlogComments
+  blogComment(where: BlogCommentWhereUniqueInput!): BlogComment
   blog(where: BlogWhereUniqueInput!): Blog
   user(where: UserWhereUniqueInput!): User
-  blogCommentsesConnection(where: BlogCommentsWhereInput, orderBy: BlogCommentsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogCommentsConnection!
+  blogCommentsConnection(where: BlogCommentWhereInput, orderBy: BlogCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogCommentConnection!
   blogsConnection(where: BlogWhereInput, orderBy: BlogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlogConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
@@ -699,7 +699,7 @@ type Query {
 }
 
 type Subscription {
-  blogComments(where: BlogCommentsSubscriptionWhereInput): BlogCommentsSubscriptionPayload
+  blogComment(where: BlogCommentSubscriptionWhereInput): BlogCommentSubscriptionPayload
   blog(where: BlogSubscriptionWhereInput): BlogSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

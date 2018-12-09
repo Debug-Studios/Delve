@@ -13,7 +13,7 @@ type Blog {
   author: User!
 }
 
-type BlogComments {
+type BlogComment {
   id: ID! @unique
   author: User!
   blog: Blog!
